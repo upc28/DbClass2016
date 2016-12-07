@@ -228,7 +228,7 @@ namespace DbClass
         }
 
         protected void insertStu()
-        {
+        {   
             string num = tbox0.Text;
             if (num.Length == 0)
             {
