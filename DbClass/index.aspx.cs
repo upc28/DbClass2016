@@ -32,27 +32,31 @@ namespace DbClass
         MySqlConnection sqlcon;
         string strCon = "server=localhost;uid=root;pwd=;database=dbclass";
         Button btnAdd,btnCancel;
-        TextBox tbox0, tbox1, tbox4;
-        DropDownList dlist2, dlist5, dlist6;
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-            ConMysql();
-            refreshTable("");
+            
+            if (!this.IsPostBack)
+            {
+                ConMysql();
+                btnAdd = new Button();
+                btnAdd.Text = "添加";
+                btnAdd.ID = "btnAdd";
+                //btnAdd.Attributes["onclick"] = "return false;";
+                btnAdd.Click += new EventHandler(this.bt4_Click);
+                this.Page.Form.Controls.Add(btnAdd);
+                btnAdd.Visible = false;
+
+                btnCancel = new Button();
+                btnCancel.Text = "取消";
+                btnCancel.ID = "btnCancel";
+                btnCancel.Click += new EventHandler(this.bt5_Click);
+                this.Page.Form.Controls.Add(btnCancel);
+                btnCancel.Visible = false;
+                refreshTable("");
+            }
 
 
-            btnAdd = new Button();
-            btnAdd.Text = "添加";
-            btnAdd.ID = "btnAdd";
-            btnAdd.Click += new EventHandler(this.bt4_Click);
-            this.Page.Form.Controls.Add(btnAdd);
-            btnAdd.Visible = false;
-
-            btnCancel = new Button();
-            btnCancel.Text = "取消";
-            btnCancel.ID = "btnCancel";
-            btnCancel.Click += new EventHandler(this.bt5_Click);
-            this.Page.Form.Controls.Add(btnCancel);
-            btnCancel.Visible = false;
         }
         protected void ConMysql()
         { 
@@ -112,7 +116,7 @@ namespace DbClass
             }
 
         }
-        protected void showInsert()
+       /* protected void showInsert()
         {
             table1.Rows.Clear();
             TableRow tRow;
@@ -128,19 +132,22 @@ namespace DbClass
             }
 
             tCell = new TableCell();
-            tbox0 = new TextBox();
+            TextBox tbox0 = new TextBox();
+            tbox0.ID = "tbox0";
             tbox0.MaxLength = 8; tbox0.Font.Size = 11;
             tCell.Controls.Add(tbox0);
             table1.Rows[0].Cells.Add(tCell);
 
             tCell = new TableCell();
-            tbox1 = new TextBox();
+            TextBox tbox1 = new TextBox();
+            tbox1.ID = "tbox1";
             tbox1.MaxLength = 8; tbox1.Font.Size = 11;
             tCell.Controls.Add(tbox1);
             table1.Rows[1].Cells.Add(tCell);
 
             tCell = new TableCell();
-            dlist2 = new DropDownList();
+            DropDownList dlist2 = new DropDownList();
+            dlist2.ID = "dlist2";
             dlist2.Items.Add(new ListItem("", "0"));
             dlist2.Items.Add(new ListItem("男", "1"));
             dlist2.Items.Add(new ListItem("女", "2"));
@@ -148,33 +155,36 @@ namespace DbClass
             table1.Rows[2].Cells.Add(tCell);
 
             tCell = new TableCell();
-            tbox4 = new TextBox();
-            tbox4.MaxLength = 8; tbox4.Font.Size = 11;
-            tCell.Controls.Add(tbox4);
+            TextBox tbox3 = new TextBox();
+            tbox3.ID = "tbox3";
+            tbox3.MaxLength = 8; tbox3.Font.Size = 11;
+            tCell.Controls.Add(tbox3);
             table1.Rows[3].Cells.Add(tCell);
 
             tCell = new TableCell();
-            dlist5 = new DropDownList();
+            DropDownList dlist4 = new DropDownList();
+            dlist4.ID = "dlist4";
             MySqlDataReader sdr1;
             sdr1 = getSDR("select ID,NAME from professionre");
+            while (sdr1.Read())
+            {
+                dlist4.Items.Add(new ListItem(sdr1.GetValue(1).ToString(), sdr1.GetValue(0).ToString()));
+            }
+            sdr1.Close();
+            tCell.Controls.Add(dlist4);
+            table1.Rows[4].Cells.Add(tCell);
+
+            tCell = new TableCell();
+            DropDownList dlist5 = new DropDownList();
+            dlist5.ID = "dlist5";
+            sdr1 = getSDR("select ID,DETAIL from rewardre");
+            dlist5.Items.Add(new ListItem("", "0"));
             while (sdr1.Read())
             {
                 dlist5.Items.Add(new ListItem(sdr1.GetValue(1).ToString(), sdr1.GetValue(0).ToString()));
             }
             sdr1.Close();
             tCell.Controls.Add(dlist5);
-            table1.Rows[4].Cells.Add(tCell);
-
-            tCell = new TableCell();
-            dlist6 = new DropDownList();
-            sdr1 = getSDR("select ID,DETAIL from rewardre");
-            dlist6.Items.Add(new ListItem("", "0"));
-            while (sdr1.Read())
-            {
-                dlist6.Items.Add(new ListItem(sdr1.GetValue(1).ToString(), sdr1.GetValue(0).ToString()));
-            }
-            sdr1.Close();
-            tCell.Controls.Add(dlist6);
             table1.Rows[5].Cells.Add(tCell);
 
             tRow = new TableRow();
@@ -187,21 +197,19 @@ namespace DbClass
             //btn.Attributes.Add("onclick", "bt4_Click");
             //this.Page.Form.Controls.Add(btn);
             
-            tCell.Controls.Add(btnAdd);
+            /*tCell.Controls.Add(btnAdd);
             Label tlab = new Label();
             tlab.Text = "     ";
             tCell.Controls.Add(tlab);
             tCell.Controls.Add(btnCancel);
             btnAdd.Visible = true;
             btnCancel.Visible = true;
-            /*btn = new Button();
-            btn.Text = "取消";
-            tCell.Controls.Add(btn);*/
+            
             
             tCell.ColumnSpan = 2;
             tRow.Cells.Add(tCell);
             table1.Rows.Add(tRow);
-        }
+        }*/
 
         protected bool check_Num(string ss)
         {
@@ -227,9 +235,9 @@ namespace DbClass
             return true;
         }
 
-        protected void insertStu()
+        protected void insertStu(InsertMsg msg)
         {   
-            string num = tbox0.Text;
+            /*string num = tbox0.Text;
             if (num.Length == 0)
             {
                 labelMsg.Text = "请输入学号";
@@ -302,7 +310,7 @@ namespace DbClass
                     labelMsg.Text = sdr1.GetValue(0).ToString();
                 }
                 sdr1.Close();
-            }
+            }*/
 
         }
 
@@ -328,11 +336,16 @@ namespace DbClass
         }
         protected void bt3_Click(object sender, EventArgs e)
         {
-            showInsert();
+            //showInsert();
+            Response.Redirect("insert.aspx");
         }
         protected void bt4_Click(object sender, EventArgs e)
         {
-            insertStu();
+            insertStu(new InsertMsg(((TextBox)table1.Rows[0].Cells[1].FindControl("tbox0")).Text,
+                ((TextBox)table1.Rows[0].Cells[1].FindControl("tbox1")).Text,
+                ((TextBox)table1.Rows[0].Cells[1].FindControl("tbox3")).Text,
+                ((DropDownList)table1.Rows[0].Cells[1].FindControl("dlist2")).SelectedValue,
+                ((DropDownList)table1.Rows[0].Cells[1].FindControl("dlist4")).SelectedValue));
         }
         protected void bt5_Click(object sender, EventArgs e)
         {
