@@ -66,6 +66,7 @@ namespace DbClass
             if(num.Length!=8)
             {
                 lab0.Text = "学号格式错误";
+                labMsg.Text = "插入错误";
                 return;
             }
             foreach(char s in num)
@@ -73,6 +74,7 @@ namespace DbClass
                 if(!Char.IsNumber(s))
                 {
                     lab0.Text = "学号格式错误";
+                    labMsg.Text = "插入错误";
                     return;
                 }
             }
@@ -89,6 +91,7 @@ namespace DbClass
                     (sex != "0" && sex != sdr1.GetValue(2).ToString())|| (profession != "0" && profession != sdr1.GetValue(3).ToString()))
                 {
                     lab1.Text = "学号已存在";
+                    labMsg.Text = "插入错误";
                     return;
                 }
                 /*if (age != "" && age != sdr1.GetValue(1).ToString())
@@ -109,11 +112,12 @@ namespace DbClass
                 sdr1.Close();
                 if (dlist5.SelectedValue != "0")
                 {
+                    string ss;
                     sdr1 = getSDR("insert into reward values(" + num + "," + dlist5.SelectedValue + ")");
                     sdr1.Close();
                     labMsg.Text = "插入信息成功：</p>" +
                               "学号:" + num + "</p>" +
-                              "奖励:" + dlist5.Text + "</p>";
+                              "奖励:" + dlist5.SelectedItem.Text + "</p>";
                 }
                 else
                 {
@@ -122,39 +126,44 @@ namespace DbClass
             }
             else
             {
-                if(name=="")
+                sdr1.Close();
+                if (name=="")
                 {
                     lab1.Text = "姓名不能为空";
+                    labMsg.Text = "插入错误";
                     return;
                 }
                 if (sex == "0")
                 {
                     lab2.Text = "性别不能为空";
+                    labMsg.Text = "插入错误";
                     return;
                 }
                 if (age == "")
                 {
                     lab3.Text = "年龄不能为空";
+                    labMsg.Text = "插入错误";
                     return;
                 }
                 if (profession == "0")
                 {
                     lab4.Text = "专业不能为空";
+                    labMsg.Text = "插入错误";
                     return;
                 }
-                sdr1 = getSDR("insert into Student values(" + num + ",'" + name + "'," + sex + "," + age + "," + profession + ")");
+                sdr1 = getSDR(EnCodeCovert("insert into Student values(" + num + ",'" + name + "'," + sex + "," + age + "," + profession + ")"));
                 sdr1.Close();
                 labMsg.Text = "插入信息成功：</p>" +
                               "学号:" + num + "</p>" +
                               "姓名:" + name + "</p>" +
-                              "性别:" + dlist2.Text + "</p>" +
+                              "性别:" + dlist2.SelectedItem.Text + "</p>" +
                               "年龄:" + age + "</p>" +
-                              "专业:" + dlist4.Text + "</p>";
+                              "专业:" + dlist4.SelectedItem.Text + "</p>";
                 if (dlist5.SelectedValue!="0")
                 {
                     sdr1 = getSDR("insert into reward values(" + num + "," + dlist5.SelectedValue + ")");
                     sdr1.Close();
-                    labMsg.Text += "奖励:" + dlist5.Text;
+                    labMsg.Text += "奖励:" + dlist5.SelectedItem.Text;
                 }
                 
             }
@@ -179,6 +188,14 @@ namespace DbClass
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             Response.Redirect("index.aspx");
+        }
+        public string EnCodeCovert(string value)
+        {
+            System.Text.Encoding srcEncode = System.Text.Encoding.GetEncoding("GBK");
+            System.Text.Encoding convToEncode = System.Text.Encoding.GetEncoding("utf-8");
+            byte[] bytes = srcEncode.GetBytes(value);
+            System.Text.Encoding.Convert(srcEncode, convToEncode, bytes, 0, bytes.Length);
+            return convToEncode.GetString(bytes);
         }
     }
 }
