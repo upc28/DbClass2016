@@ -11,14 +11,13 @@ namespace DbClass
     public partial class insert : System.Web.UI.Page
     {
         MySqlConnection sqlcon;
-        string strCon = "server=localhost;uid=root;pwd=;database=dbclass";
+        string strCon = "server=localhost;uid=root;pwd=;database=dbclass;CharSet=utf8";
         protected void Page_Load(object sender, EventArgs e)
         {
 
             ConMysql();
             if (!IsPostBack)
             {
-                
                 initTable();
             }
             

@@ -30,14 +30,14 @@ namespace DbClass
     public partial class index : System.Web.UI.Page
     {
         MySqlConnection sqlcon;
-        string strCon = "server=localhost;uid=root;pwd=;database=dbclass";
+        string strCon = "server=localhost;uid=root;pwd=;database=dbclass;CharSet=utf8";
         Button btnAdd,btnCancel;
         
         protected void Page_Load(object sender, EventArgs e)
         {
             
-            if (!this.IsPostBack)
-            {
+           // if (!this.IsPostBack)
+           // {
                 ConMysql();
                 btnAdd = new Button();
                 btnAdd.Text = "添加";
@@ -54,7 +54,7 @@ namespace DbClass
                 this.Page.Form.Controls.Add(btnCancel);
                 btnCancel.Visible = false;
                 refreshTable("");
-            }
+          //  }
 
 
         }
