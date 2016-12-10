@@ -30,7 +30,7 @@ namespace DbClass
     public partial class index : System.Web.UI.Page
     {
         MySqlConnection sqlcon;
-        string strCon = "server=localhost;uid=root;pwd=;database=dbclass;CharSet=utf8";
+        string strCon = "server=www.upc28.com;uid=root;pwd=1996;database=dbclass";
         Button btnAdd,btnCancel;
         
         protected void Page_Load(object sender, EventArgs e)
@@ -90,7 +90,7 @@ namespace DbClass
             {
                 tTextBox = "and Student.ID = " + tTextBox;
             }
-            sdr1 = getSDR("select Student.ID,Student.NAME,Student.SEX,Student.AGE,professionre.NAME from Student,professionre where Student.PROFESSIONID = professionre.ID " + tTextBox);
+            sdr1 = getSDR("select student.ID,student.NAME,student.SEX,student.AGE,professionre.NAME from student,professionre where student.PROFESSIONID = professionre.ID " + tTextBox);
             while(sdr1.Read())
             {
                 tRow = new TableRow();

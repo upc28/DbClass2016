@@ -5,13 +5,14 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
+using System.Text;
 
 namespace DbClass
 {
     public partial class insert : System.Web.UI.Page
     {
         MySqlConnection sqlcon;
-        string strCon = "server=localhost;uid=root;pwd=;database=dbclass;CharSet=utf8";
+        string strCon = "server=www.upc28.com;uid=root;pwd=1996;database=dbclass";
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -20,6 +21,12 @@ namespace DbClass
             {
                 initTable();
             }
+            /*MySqlDataReader sdr1;
+            
+            byte[] utf8 = Encoding.UTF8.GetBytes("你是好书上");
+            string strencode = Encoding.UTF8.GetString(utf8);
+            sdr1 = getSDR("insert into test values('"+strencode+"')");
+            sdr1.Close();*/
             
 
         }
@@ -83,7 +90,7 @@ namespace DbClass
             age = tbox3.Text;
             profession = dlist4.SelectedValue;
             MySqlDataReader sdr1;
-            sdr1 = getSDR("select NAME,AGE,SEX,PROFESSIONID from Student where ID = " + num);
+            sdr1 = getSDR("select NAME,AGE,SEX,PROFESSIONID from student where ID = " + num);
             if (sdr1.Read())
             {
                 if((name!=""&&name!=sdr1.GetValue(0).ToString())|| (age != "" && age != sdr1.GetValue(1).ToString())||
@@ -150,8 +157,10 @@ namespace DbClass
                     labMsg.Text = "插入错误";
                     return;
                 }
-                sdr1 = getSDR(EnCodeCovert("insert into Student values(" + num + ",'" + name + "'," + sex + "," + age + "," + profession + ")"));
+                sdr1 = getSDR(EnCodeCovert("insert into student values(" + num + ",'" + name + "'," + sex + "," + age + "," + profession + ")"));
                 sdr1.Close();
+                byte[] utf8 = Encoding.UTF8.GetBytes(name);
+                name = Encoding.UTF8.GetString(utf8);
                 labMsg.Text = "插入信息成功：</p>" +
                               "学号:" + num + "</p>" +
                               "姓名:" + name + "</p>" +
