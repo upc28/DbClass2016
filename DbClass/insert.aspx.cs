@@ -20,13 +20,7 @@ namespace DbClass
             if (!IsPostBack)
             {
                 initTable();
-            }
-            /*MySqlDataReader sdr1;
-            
-            byte[] utf8 = Encoding.UTF8.GetBytes("你是好书上");
-            string strencode = Encoding.UTF8.GetString(utf8);
-            sdr1 = getSDR("insert into test values('"+strencode+"')");
-            sdr1.Close();*/
+            }          
             
 
         }
@@ -66,7 +60,8 @@ namespace DbClass
         }
 
         protected void insertMsg()
-        {
+        {       
+
             initLab();
             string num = tbox0.Text;
             if(num.Length!=8)
@@ -99,26 +94,10 @@ namespace DbClass
                     lab1.Text = "学号已存在";
                     labMsg.Text = "插入错误";
                     return;
-                }
-                /*if (age != "" && age != sdr1.GetValue(1).ToString())
-                {
-                    lab3.Text = "错误";
-                    return;
-                }
-                if (sex != "0" && sex != sdr1.GetValue(2).ToString())
-                {
-                    lab2.Text = "错误";
-                    return;
-                }
-                if (profession != "0" && profession != sdr1.GetValue(4).ToString())
-                {
-                    lab4.Text = "错误";
-                    return;
-                }*/
+                }               
                 sdr1.Close();
                 if (dlist5.SelectedValue != "0")
                 {
-                    string ss;
                     sdr1 = getSDR("insert into reward values(" + num + "," + dlist5.SelectedValue + ")");
                     sdr1.Close();
                     labMsg.Text = "插入信息成功：</p>" +
@@ -157,10 +136,12 @@ namespace DbClass
                     labMsg.Text = "插入错误";
                     return;
                 }
-                sdr1 = getSDR(EnCodeCovert("insert into student values(" + num + ",'" + name + "'," + sex + "," + age + "," + profession + ")"));
-                sdr1.Close();
+
                 byte[] utf8 = Encoding.UTF8.GetBytes(name);
-                name = Encoding.UTF8.GetString(utf8);
+                name = Encoding.UTF8.GetString(utf8);;
+
+                sdr1 = getSDR("insert into student  values(" + num + ",'" + name + "'," + sex + "," + age + "," + profession + ")");
+                sdr1.Close();
                 labMsg.Text = "插入信息成功：</p>" +
                               "学号:" + num + "</p>" +
                               "姓名:" + name + "</p>" +
@@ -172,11 +153,8 @@ namespace DbClass
                     sdr1 = getSDR("insert into reward values(" + num + "," + dlist5.SelectedValue + ")");
                     sdr1.Close();
                     labMsg.Text += "奖励:" + dlist5.SelectedItem.Text;
-                }
-                
-            }
-            
-
+                }               
+            }   
         }
 
         protected void initLab()
@@ -197,13 +175,6 @@ namespace DbClass
         {
             Response.Redirect("index.aspx");
         }
-        public string EnCodeCovert(string value)
-        {
-            System.Text.Encoding srcEncode = System.Text.Encoding.GetEncoding("GBK");
-            System.Text.Encoding convToEncode = System.Text.Encoding.GetEncoding("utf-8");
-            byte[] bytes = srcEncode.GetBytes(value);
-            System.Text.Encoding.Convert(srcEncode, convToEncode, bytes, 0, bytes.Length);
-            return convToEncode.GetString(bytes);
-        }
+       
     }
 }
