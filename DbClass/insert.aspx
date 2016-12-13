@@ -9,6 +9,14 @@
     <title></title>
     <style type="text/css">
         .auto-style1 {
+            text-align: center;
+        }
+        .auto-style2 {
+            width: 147px;
+        }
+        .auto-style3 {
+            text-align: center;
+            width: 133px;
         }
     </style>
 </head>
@@ -16,14 +24,14 @@
     <form id="form1" runat="server">
     <div>
     
-        <table style="width:100%;">
+        <table border="1" style="width:50%;margin:0 auto;border-style:Solid;">
             <tr>
                 <td class="auto-style1" colspan="2">插入学生信息</td>
 
             </tr>
             <tr>
-                <td class="auto-style1"><label>学号</label></td>
-                <td>
+                <td class="auto-style3"><label>学号</label></td>
+                <td class="auto-style2">
                     <asp:TextBox ID="tbox0" runat="server" MaxLength="8"></asp:TextBox>
                 </td>
                 <td>
@@ -31,8 +39,8 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style1"><label>姓名</label></td>
-                <td>
+                <td class="auto-style3"><label>姓名</label></td>
+                <td class="auto-style2">
                     <asp:TextBox ID="tbox1" runat="server"></asp:TextBox>
                 </td>
                 <td>
@@ -40,8 +48,8 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style1">性别</td>
-                <td>
+                <td class="auto-style3">性别</td>
+                <td class="auto-style2">
                     <asp:DropDownList ID="dlist2" runat="server">
                     </asp:DropDownList>
                 </td>
@@ -50,8 +58,8 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style1">年龄</td>
-                <td>
+                <td class="auto-style3">年龄</td>
+                <td class="auto-style2">
                     <asp:TextBox ID="tbox3" runat="server" MaxLength="2"></asp:TextBox>
                 </td>
                 <td>
@@ -59,8 +67,8 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style1">专业</td>
-                <td>
+                <td class="auto-style3">专业</td>
+                <td class="auto-style2">
                     <asp:DropDownList ID="dlist4" runat="server">
                     </asp:DropDownList>
                 </td>
@@ -69,8 +77,8 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style1">奖励</td>
-                <td>
+                <td class="auto-style3">奖励</td>
+                <td class="auto-style2">
                     <asp:DropDownList ID="dlist5" runat="server">
                     </asp:DropDownList>
                 </td>
@@ -81,6 +89,7 @@
             <tr>
                 <td class="auto-style1" colspan="2">
                     <asp:Button ID="btnAdd" runat="server" OnClick="Button1_Click" Text="插入" />
+                    <label style="visibility:hidden"> 55 </label>
                     <asp:Button ID="btnCancel" runat="server" OnClick="btnCancel_Click" Text="取消" />
                 </td>
             </tr>

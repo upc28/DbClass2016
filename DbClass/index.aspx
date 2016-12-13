@@ -17,7 +17,6 @@
             width: 83px;
             height: 28px;
             margin-right:30px;
-            margin-bottom:5px;
             
         }
         #Button3 {
@@ -47,8 +46,46 @@
                 <td><asp:Label ID="labelMsg" runat ="server" style="margin-top:10px;text-align:center;vertical-align:central;font-size: 20px;"></asp:Label> </td>
             </tr>
         </table>
-        <asp:table id="table1" border="1" runat="server" style="width: 80%; height: 224px;margin:0 auto;border-style:Solid;text-align:center;top:6px;">        
+        <asp:table id="table1" border="1" runat="server" style="width: 80%;margin:0 auto;border-style:Solid;text-align:center;top:6px;">        
     </asp:table>
+        <br />
+        <table style="width:100%;">
+            <tr>
+                <td colspan="3">专业信息</td>
+                <td colspan="3">奖励类别</td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                </td>
+                <td>
+                    <asp:Button ID="Button4" runat="server" Text="添加" />
+                </td>
+                <td>
+                    <asp:Button ID="Button5" runat="server" Text="显示" />
+                </td>
+                <td>
+                    <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
+                </td>
+                <td>
+                    <asp:Button ID="Button6" runat="server" Text="添加" />
+                </td>
+                <td>
+                    <asp:Button ID="Button7" runat="server" Text="显示" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label>
+                </td>
+                <td colspan="3">
+                    <asp:Label ID="Label3" runat="server" Text="Label"></asp:Label>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+        <br />
     </form>
 
     

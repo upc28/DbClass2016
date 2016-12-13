@@ -31,31 +31,21 @@ namespace DbClass
     {
         MySqlConnection sqlcon;
         string strCon = "server=www.upc28.com;uid=root;pwd=1996;database=dbclass";
-        Button btnAdd,btnCancel;
-        
+        Style style1;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             
            // if (!this.IsPostBack)
            // {
                 ConMysql();
-                btnAdd = new Button();
-                btnAdd.Text = "添加";
-                btnAdd.ID = "btnAdd";
-                //btnAdd.Attributes["onclick"] = "return false;";
-                btnAdd.Click += new EventHandler(this.bt4_Click);
-                this.Page.Form.Controls.Add(btnAdd);
-                btnAdd.Visible = false;
-
-                btnCancel = new Button();
-                btnCancel.Text = "取消";
-                btnCancel.ID = "btnCancel";
-                btnCancel.Click += new EventHandler(this.bt5_Click);
-                this.Page.Form.Controls.Add(btnCancel);
-                btnCancel.Visible = false;
+                
                 refreshTable("");
-          //  }
 
+            //  }
+            style1 = new Style();
+            style1.Height = 30;
 
         }
         protected void ConMysql()
@@ -82,13 +72,15 @@ namespace DbClass
             {
                 tCell = new TableCell();
                 tCell.Text = tHead[i];
+                
+                tCell.ApplyStyle(style1);
                 tRow.Cells.Add(tCell);
             }
             table1.Rows.Add(tRow);
             string tTextBox = ss;
             if (tTextBox != "")
             {
-                tTextBox = "and Student.ID = " + tTextBox;
+                tTextBox = "and student.ID = " + tTextBox;
             }
             sdr1 = getSDR("select student.ID,student.NAME,student.SEX,student.AGE,professionre.NAME from student,professionre where student.PROFESSIONID = professionre.ID " + tTextBox);
             while(sdr1.Read())
@@ -115,101 +107,7 @@ namespace DbClass
                 table1.Rows[i].Cells.Add(tCell);
             }
 
-        }
-       /* protected void showInsert()
-        {
-            table1.Rows.Clear();
-            TableRow tRow;
-            TableCell tCell;
-            string[] tHead = new string[] { "学号", "姓名", "性别", "年龄", "专业", "奖励" };
-            for (int i = 0; i < 6; i++)
-            {
-                tRow = new TableRow();
-                tCell = new TableCell();
-                tCell.Text = tHead[i];
-                tRow.Cells.Add(tCell);
-                table1.Rows.Add(tRow);
-            }
-
-            tCell = new TableCell();
-            TextBox tbox0 = new TextBox();
-            tbox0.ID = "tbox0";
-            tbox0.MaxLength = 8; tbox0.Font.Size = 11;
-            tCell.Controls.Add(tbox0);
-            table1.Rows[0].Cells.Add(tCell);
-
-            tCell = new TableCell();
-            TextBox tbox1 = new TextBox();
-            tbox1.ID = "tbox1";
-            tbox1.MaxLength = 8; tbox1.Font.Size = 11;
-            tCell.Controls.Add(tbox1);
-            table1.Rows[1].Cells.Add(tCell);
-
-            tCell = new TableCell();
-            DropDownList dlist2 = new DropDownList();
-            dlist2.ID = "dlist2";
-            dlist2.Items.Add(new ListItem("", "0"));
-            dlist2.Items.Add(new ListItem("男", "1"));
-            dlist2.Items.Add(new ListItem("女", "2"));
-            tCell.Controls.Add(dlist2);
-            table1.Rows[2].Cells.Add(tCell);
-
-            tCell = new TableCell();
-            TextBox tbox3 = new TextBox();
-            tbox3.ID = "tbox3";
-            tbox3.MaxLength = 8; tbox3.Font.Size = 11;
-            tCell.Controls.Add(tbox3);
-            table1.Rows[3].Cells.Add(tCell);
-
-            tCell = new TableCell();
-            DropDownList dlist4 = new DropDownList();
-            dlist4.ID = "dlist4";
-            MySqlDataReader sdr1;
-            sdr1 = getSDR("select ID,NAME from professionre");
-            while (sdr1.Read())
-            {
-                dlist4.Items.Add(new ListItem(sdr1.GetValue(1).ToString(), sdr1.GetValue(0).ToString()));
-            }
-            sdr1.Close();
-            tCell.Controls.Add(dlist4);
-            table1.Rows[4].Cells.Add(tCell);
-
-            tCell = new TableCell();
-            DropDownList dlist5 = new DropDownList();
-            dlist5.ID = "dlist5";
-            sdr1 = getSDR("select ID,DETAIL from rewardre");
-            dlist5.Items.Add(new ListItem("", "0"));
-            while (sdr1.Read())
-            {
-                dlist5.Items.Add(new ListItem(sdr1.GetValue(1).ToString(), sdr1.GetValue(0).ToString()));
-            }
-            sdr1.Close();
-            tCell.Controls.Add(dlist5);
-            table1.Rows[5].Cells.Add(tCell);
-
-            tRow = new TableRow();
-            tCell = new TableCell();
-            /*Button btn = new Button();
-            btn.Text = "添加";
-            btn.ID = "btnInsert1";
-            
-            btn.Click += new EventHandler(this.bt4_Click);*/
-            //btn.Attributes.Add("onclick", "bt4_Click");
-            //this.Page.Form.Controls.Add(btn);
-            
-            /*tCell.Controls.Add(btnAdd);
-            Label tlab = new Label();
-            tlab.Text = "     ";
-            tCell.Controls.Add(tlab);
-            tCell.Controls.Add(btnCancel);
-            btnAdd.Visible = true;
-            btnCancel.Visible = true;
-            
-            
-            tCell.ColumnSpan = 2;
-            tRow.Cells.Add(tCell);
-            table1.Rows.Add(tRow);
-        }*/
+        }      
 
         protected bool check_Num(string ss)
         {
@@ -235,82 +133,14 @@ namespace DbClass
             return true;
         }
 
-        protected void insertStu(InsertMsg msg)
-        {   
-            /*string num = tbox0.Text;
-            if (num.Length == 0)
-            {
-                labelMsg.Text = "请输入学号";
-                return;
-            }
-            MySqlDataReader sdr1;
-            bool mode=false;
-            sdr1 = getSDR("select count(ID) from Student where ID = " + num);
-            if(sdr1.Read())
-            {
-                if (sdr1.GetValue(0).ToString() == "1")
-                {
-                    mode = true;
-                }
-                else mode = false;
-            }
-            sdr1.Close();
-            if(mode)
-            {
-                InsertMsg insertmsg;
-                sdr1 = getSDR("select NAME,AGE,SEX,PROFESSION from Student where ID = " + num);
-                if (sdr1.Read())
-                {
-                    insertmsg = new InsertMsg(num, sdr1.GetValue(0).ToString(), sdr1.GetValue(1).ToString(), sdr1.GetValue(2).ToString(), sdr1.GetValue(3).ToString());
-                }
-                else insertmsg = new InsertMsg();
-                sdr1.Close();
-                if(tbox1.Text!=""&&tbox1.Text!=insertmsg.name)
-                {
-                    labelMsg.Text = "学号已存在";
-                    return;
-                }
-                if (tbox4.Text != "" && tbox4.Text != insertmsg.age)
-                {
-                    labelMsg.Text = "学号已存在";
-                    return;
-                }
-                if(dlist2.Text!=""&&dlist2.Text!=insertmsg.sex)
-                {
-                    labelMsg.Text = "学号已存在";
-                    return;
-                }
-                if (dlist5.Text != "" && dlist5.Text != insertmsg.profession)
-                {
-                    labelMsg.Text = "学号已存在";
-                    return;
-                }
-                if(dlist6.Text=="")
-                {
-                    labelMsg.Text = "啥也不插入是什么鬼=.=";
-                    return;
-                }
-                sdr1 = getSDR("insert into reward values(" + num + "," + dlist6.SelectedValue + ")");
-                if(sdr1.Read())
-                {
-                    labelMsg.Text = sdr1.GetValue(0).ToString();
-                }
-                sdr1.Close();
-            }
-            else
-            {
-                if(tbox1.Text==""||tbox4.Text==""||dlist2.Text==""||dlist5.Text=="")
-                {
-                    labelMsg.Text = "数据不完全";
-                    return;
-                }
-                sdr1 = getSDR("insert into Student (ID,NAME,SEX,AGE,PROFESSIONID) values(" + num + "," + tbox1.Text + "," + dlist2.SelectedValue + "," + tbox4.Text + "," + dlist5.SelectedValue + ")");
-                if(sdr1.Read())
-                {
-                    labelMsg.Text = sdr1.GetValue(0).ToString();
-                }
-                sdr1.Close();
-            }*/
+        protected void showProfessionRe()
+        {
+            
+
+        }
+
+        protected void showRewardRe()
+        {
 
         }
 
@@ -338,19 +168,6 @@ namespace DbClass
         {
             //showInsert();
             Response.Redirect("insert.aspx");
-        }
-        protected void bt4_Click(object sender, EventArgs e)
-        {
-            insertStu(new InsertMsg(((TextBox)table1.Rows[0].Cells[1].FindControl("tbox0")).Text,
-                ((TextBox)table1.Rows[0].Cells[1].FindControl("tbox1")).Text,
-                ((TextBox)table1.Rows[0].Cells[1].FindControl("tbox3")).Text,
-                ((DropDownList)table1.Rows[0].Cells[1].FindControl("dlist2")).SelectedValue,
-                ((DropDownList)table1.Rows[0].Cells[1].FindControl("dlist4")).SelectedValue));
-        }
-        protected void bt5_Click(object sender, EventArgs e)
-        {
-            refreshTable("");
-        }
-        
+        }        
     }
 }
