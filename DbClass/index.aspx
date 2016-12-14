@@ -31,6 +31,10 @@
             margin-right:30px;
         }
         
+        .auto-style1 {
+            height: 20px;
+        }
+        
         </style>
 </head>
 <body>
@@ -49,7 +53,7 @@
         <asp:table id="table1" border="1" runat="server" style="width: 80%;margin:0 auto;border-style:Solid;text-align:center;top:6px;">        
     </asp:table>
         <br />
-        <table style="width:100%;">
+        <table id="table2" border="1" style="width:60%;margin:0 auto;border-style:solid;">
             <tr>
                 <td colspan="3">专业信息</td>
                 <td colspan="3">奖励类别</td>
@@ -59,7 +63,7 @@
                     <asp:TextBox ID="TextBox2" runat="server" OnTextChanged="TextBox2_TextChanged"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:Button ID="Button4" runat="server" Text="添加" />
+                    <asp:Button ID="Button4" runat="server" Text="添加" OnClick="Button4_Click" />
                 </td>
                 <td>
                     <asp:Button ID="Button5" runat="server" Text="显示" OnClick="Button5_Click" />
@@ -68,23 +72,24 @@
                     <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:Button ID="Button6" runat="server" Text="添加" />
+                    <asp:Button ID="Button6" runat="server" Text="添加" OnClick="Button6_Click" />
                 </td>
                 <td>
                     <asp:Button ID="Button7" runat="server" Text="显示" OnClick="Button7_Click" />
                 </td>
             </tr>
             <tr>
-                <td colspan="3">
+                <td colspan="3" class="auto-style1">
                     <asp:Label ID="Label2" runat="server"></asp:Label>
                 </td>
-                <td colspan="3">
+                <td colspan="3" class="auto-style1">
                     <asp:Label ID="Label3" runat="server"></asp:Label>
                 </td>
             </tr>
         </table>
         <br />
         <br />
+        <asp:Button ID="Button8" runat="server" OnClick="Button8_Click" Text="程序文档" />
         <br />
     </form>
 

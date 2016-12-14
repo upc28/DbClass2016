@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
+using Microsoft.Office.Interop.Word;
 
 namespace DbClass
 {
@@ -31,7 +32,7 @@ namespace DbClass
     {
         MySqlConnection sqlcon;
         string strCon = "server=www.upc28.com;uid=root;pwd=1996;database=dbclass";
-        Style style1;
+        System.Web.UI.WebControls.Style style1;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -44,7 +45,7 @@ namespace DbClass
                 refreshTable("");
 
             //  }
-            style1 = new Style();
+            style1 = new System.Web.UI.WebControls.Style();
             style1.Height = 30;
 
         }
@@ -197,6 +198,30 @@ namespace DbClass
                 Label3.Text += "<br>" + sdr1.GetString(0) + "</br>";
             }
             sdr1.Close();
+        }
+
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            MySqlDataReader sdr1;
+            if (TextBox2.Text == "") return;
+            sdr1 = getSDR("insert into professionre (NAME) values('"+TextBox2.Text+"')");
+            sdr1.Close();
+        }
+
+        protected void Button6_Click(object sender, EventArgs e)
+        {
+            MySqlDataReader sdr1;
+            if (TextBox3.Text == "") return;
+            sdr1 = getSDR("insert into rewardre (DETAIL) values('" + TextBox3.Text + "')");
+            sdr1.Close();
+        }
+
+        protected void Button8_Click(object sender, EventArgs e)
+        {
+            ApplicationClass word = new ApplicationClass();
+            Type wordType = word.GetType();
+            Documents docs = word.Documents;
+
         }
     }
 }
