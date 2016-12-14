@@ -104,6 +104,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\config.pubxml" />
+    <None Include="Properties\PublishProfiles\dbclass28 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\dbclass28 - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

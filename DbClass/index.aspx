@@ -56,13 +56,13 @@
             </tr>
             <tr>
                 <td>
-                    <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBox2" runat="server" OnTextChanged="TextBox2_TextChanged"></asp:TextBox>
                 </td>
                 <td>
                     <asp:Button ID="Button4" runat="server" Text="添加" />
                 </td>
                 <td>
-                    <asp:Button ID="Button5" runat="server" Text="显示" />
+                    <asp:Button ID="Button5" runat="server" Text="显示" OnClick="Button5_Click" />
                 </td>
                 <td>
                     <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
@@ -71,15 +71,15 @@
                     <asp:Button ID="Button6" runat="server" Text="添加" />
                 </td>
                 <td>
-                    <asp:Button ID="Button7" runat="server" Text="显示" />
+                    <asp:Button ID="Button7" runat="server" Text="显示" OnClick="Button7_Click" />
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label>
+                    <asp:Label ID="Label2" runat="server"></asp:Label>
                 </td>
                 <td colspan="3">
-                    <asp:Label ID="Label3" runat="server" Text="Label"></asp:Label>
+                    <asp:Label ID="Label3" runat="server"></asp:Label>
                 </td>
             </tr>
         </table>

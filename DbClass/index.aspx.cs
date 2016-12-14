@@ -168,6 +168,35 @@ namespace DbClass
         {
             //showInsert();
             Response.Redirect("insert.aspx");
-        }        
+        }
+
+        protected void TextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Button5_Click(object sender, EventArgs e)
+        {
+            Label2.Text = "";       
+            MySqlDataReader sdr1;
+            sdr1 = getSDR("select NAME from professionre");
+            while(sdr1.Read())
+            {
+                Label2.Text += "<br>" + sdr1.GetString(0) + "</br>";
+            }
+            sdr1.Close();
+        }
+
+        protected void Button7_Click(object sender, EventArgs e)
+        {
+            Label3.Text = "";
+            MySqlDataReader sdr1;
+            sdr1 = getSDR("select DETAIL from rewardre");
+            while (sdr1.Read())
+            {
+                Label3.Text += "<br>" + sdr1.GetString(0) + "</br>";
+            }
+            sdr1.Close();
+        }
     }
 }
