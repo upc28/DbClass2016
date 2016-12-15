@@ -216,7 +216,7 @@ namespace DbClass
 
         protected void Button10_Click(object sender, EventArgs e)
         {
-            Response.Redirect("http://www.github.com/upc28/DbClass2016");
+            Response.Redirect("http://www.github.com/upc28/DbClass2016");  
         }
     }
 }
