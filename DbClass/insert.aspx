@@ -21,12 +21,12 @@
     </style>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
+    <form id="form1" autocomplete="off" runat="server">
+    <div style="border-style: hidden">
     
         <table border="1" style="width:50%;margin:0 auto;border-style:Solid;">
             <tr>
-                <td class="auto-style1" colspan="2">插入学生信息</td>
+                <td class="auto-style1" colspan="2" style="border-style: hidden">插入学生信息</td>
 
             </tr>
             <tr>
@@ -34,7 +34,7 @@
                 <td class="auto-style2">
                     <asp:TextBox ID="tbox0" runat="server" MaxLength="8"></asp:TextBox>
                 </td>
-                <td>
+                <td style="border-style: hidden">
                     <asp:Label ID="lab0" runat="server"></asp:Label>
                 </td>
             </tr>
@@ -43,7 +43,7 @@
                 <td class="auto-style2">
                     <asp:TextBox ID="tbox1" runat="server"></asp:TextBox>
                 </td>
-                <td>
+                <td style="border-style: hidden">
                     <asp:Label ID="lab1" runat="server"></asp:Label>
                 </td>
             </tr>
@@ -53,7 +53,7 @@
                     <asp:DropDownList ID="dlist2" runat="server">
                     </asp:DropDownList>
                 </td>
-                <td>
+                <td style="border-style: hidden">
                     <asp:Label ID="lab2" runat="server" Text=""></asp:Label>
                 </td>
             </tr>
@@ -62,7 +62,7 @@
                 <td class="auto-style2">
                     <asp:TextBox ID="tbox3" runat="server" MaxLength="2"></asp:TextBox>
                 </td>
-                <td>
+                <td style="border-style: hidden">
                     <asp:Label ID="lab3" runat="server" Text=""></asp:Label>
                 </td>
             </tr>
@@ -72,7 +72,7 @@
                     <asp:DropDownList ID="dlist4" runat="server">
                     </asp:DropDownList>
                 </td>
-                <td>
+                <td style="border-style: hidden">
                     <asp:Label ID="lab4" runat="server" Text=""></asp:Label>
                 </td>
             </tr>
@@ -82,7 +82,7 @@
                     <asp:DropDownList ID="dlist5" runat="server">
                     </asp:DropDownList>
                 </td>
-                <td>
+                <td style="border-style: hidden">
                     <asp:Label ID="lab5" runat="server" Text=""></asp:Label>
                 </td>
             </tr>
@@ -96,7 +96,13 @@
         </table>
     
     </div>
+        &nbsp;<table style="width:100%;">
+            <tr>
+                <td style="text-align: center">
         <asp:Label ID="labMsg" runat="server"></asp:Label>
+                </td>
+            </tr>
+        </table>
     </form>
 </body>
 </html>

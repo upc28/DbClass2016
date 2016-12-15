@@ -101,6 +101,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bugrecord.aspx" />
+    <Content Include="information.aspx" />
     <Content Include="insert.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
@@ -115,6 +117,7 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="test2.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.aspx" />
@@ -123,12 +126,27 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bugrecord.aspx.cs">
+      <DependentUpon>bugrecord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bugrecord.aspx.designer.cs">
+      <DependentUpon>bugrecord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="checkSQL.cs" />
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="information.aspx.cs">
+      <DependentUpon>information.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="information.aspx.designer.cs">
+      <DependentUpon>information.aspx</DependentUpon>
     </Compile>
     <Compile Include="insert.aspx.cs">
       <DependentUpon>insert.aspx</DependentUpon>

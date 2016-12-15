@@ -12,7 +12,7 @@ namespace DbClass
     public partial class insert : System.Web.UI.Page
     {
         MySqlConnection sqlcon;
-        string strCon = "server=www.upc28.com;uid=root;pwd=1996;database=dbclass";
+        string strCon = "server=www.upc28.com;uid=dbclassusr;pwd=1996;database=dbclass";
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -22,7 +22,6 @@ namespace DbClass
                 initTable();
             }          
             
-
         }
         protected void initTable()
         {
@@ -32,16 +31,37 @@ namespace DbClass
             dlist2.Items.Add(new ListItem("女", "2"));
             sdr1 = getSDR("select ID,NAME from professionre");
             dlist4.Items.Add(new ListItem("", "0"));
+            string sdrstr1, sdrstr2;
             while (sdr1.Read())
             {
-                dlist4.Items.Add(new ListItem(sdr1.GetValue(1).ToString(), sdr1.GetValue(0).ToString()));
+                try
+                {
+                    sdrstr1 = sdr1.GetValue(1).ToString();
+                    sdrstr2 = sdr1.GetValue(0).ToString();
+                }
+                catch
+                {
+                    sdrstr1 = "出错啦^_^";
+                    sdrstr2 = "出错啦^_^";
+                }
+                dlist4.Items.Add(new ListItem(sdrstr1, sdrstr2));
             }
             sdr1.Close();
             sdr1 = getSDR("select ID,DETAIL from rewardre");
             dlist5.Items.Add(new ListItem("", "0"));
             while (sdr1.Read())
             {
-                dlist5.Items.Add(new ListItem(sdr1.GetValue(1).ToString(), sdr1.GetValue(0).ToString()));
+                try
+                {
+                    sdrstr1 = sdr1.GetValue(1).ToString();
+                    sdrstr2 = sdr1.GetValue(0).ToString();
+                }
+                catch
+                {
+                    sdrstr1 = "出错啦^_^";
+                    sdrstr2 = "出错啦^_^";
+                }
+                dlist5.Items.Add(new ListItem(sdrstr1, sdrstr2));
             }
             sdr1.Close();
         }
@@ -64,7 +84,7 @@ namespace DbClass
 
             initLab();
             string num = tbox0.Text;
-            if(num.Length!=8)
+            if(num.Length!=8||!CheckSQL.IsSafeSqlString(num))
             {
                 lab0.Text = "学号格式错误";
                 labMsg.Text = "插入错误";
@@ -81,24 +101,63 @@ namespace DbClass
             }
             string name, sex, age, profession;
             name = tbox1.Text;
-            sex = dlist2.SelectedValue;
             age = tbox3.Text;
+            if (!CheckSQL.IsSafeSqlString(name))
+            {
+                lab1.Text = "学号格式错误";
+                labMsg.Text = "插入错误";
+                return;
+            }
+            foreach (char s in age)
+            {
+                if (!Char.IsNumber(s))
+                {
+                    lab3.Text = "年龄格式错误";
+                    labMsg.Text = "插入错误";
+                    return;
+                }
+            }
+            if (!CheckSQL.IsSafeSqlString(age))
+            {
+                lab3.Text = "学号格式错误";
+                labMsg.Text = "插入错误";
+                return;
+            }
+            sex = dlist2.SelectedValue;
             profession = dlist4.SelectedValue;
             MySqlDataReader sdr1;
             sdr1 = getSDR("select NAME,AGE,SEX,PROFESSIONID from student where ID = " + num);
             if (sdr1.Read())
             {
-                if((name!=""&&name!=sdr1.GetValue(0).ToString())|| (age != "" && age != sdr1.GetValue(1).ToString())||
-                    (sex != "0" && sex != sdr1.GetValue(2).ToString())|| (profession != "0" && profession != sdr1.GetValue(3).ToString()))
+                try
                 {
-                    lab1.Text = "学号已存在";
-                    labMsg.Text = "插入错误";
+                    if ((name != "" && name != sdr1.GetValue(0).ToString()) || (age != "" && age != sdr1.GetValue(1).ToString()) ||
+                        (sex != "0" && sex != sdr1.GetValue(2).ToString()) || (profession != "0" && profession != sdr1.GetValue(3).ToString()))
+                    {
+                        lab1.Text = "学号已存在";
+                        labMsg.Text = "插入错误";
+                        return;
+                    }
+                }
+                catch
+                {
+                    labMsg.Text = "出错啦^_^";
+                    sdr1.Close();
                     return;
-                }               
+                }            
                 sdr1.Close();
                 if (dlist5.SelectedValue != "0")
                 {
-                    sdr1 = getSDR("insert into reward values(" + num + "," + dlist5.SelectedValue + ")");
+                    try
+                    {
+                        sdr1 = getSDR("insert into reward values(" + num + "," + dlist5.SelectedValue + ")");
+                    }
+                    catch
+                    {
+                        labMsg.Text = "出错啦^_^";
+                        sdr1.Close();
+                        return;
+                    }
                     sdr1.Close();
                     labMsg.Text = "插入信息成功：</p>" +
                               "学号:" + num + "</p>" +
@@ -139,8 +198,16 @@ namespace DbClass
 
                 byte[] utf8 = Encoding.UTF8.GetBytes(name);
                 name = Encoding.UTF8.GetString(utf8);;
-
-                sdr1 = getSDR("insert into student  values(" + num + ",'" + name + "'," + sex + "," + age + "," + profession + ")");
+                try
+                {
+                    sdr1 = getSDR("insert into student  values(" + num + ",'" + name + "'," + sex + "," + age + "," + profession + ")");
+                }
+                catch
+                {
+                    labMsg.Text = "出错啦^_^";
+                    sdr1.Close();
+                    return;
+                }
                 sdr1.Close();
                 labMsg.Text = "插入信息成功：</p>" +
                               "学号:" + num + "</p>" +
@@ -150,7 +217,16 @@ namespace DbClass
                               "专业:" + dlist4.SelectedItem.Text + "</p>";
                 if (dlist5.SelectedValue!="0")
                 {
-                    sdr1 = getSDR("insert into reward values(" + num + "," + dlist5.SelectedValue + ")");
+                    try
+                    {
+                        sdr1 = getSDR("insert into reward values(" + num + "," + dlist5.SelectedValue + ")");
+                    }
+                    catch
+                    {
+                        labMsg.Text = "出错啦^_^";
+                        sdr1.Close();
+                        return;
+                    }
                     sdr1.Close();
                     labMsg.Text += "奖励:" + dlist5.SelectedItem.Text;
                 }               

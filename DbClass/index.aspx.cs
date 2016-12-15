@@ -25,13 +25,14 @@ namespace DbClass
         {
             num = _num; name = _name; age = _age; sex = _sex; profession = _profession;
         }
+        
     };
 
 
     public partial class index : System.Web.UI.Page
     {
         MySqlConnection sqlcon;
-        string strCon = "server=www.upc28.com;uid=root;pwd=1996;database=dbclass";
+        string strCon = "server=www.upc28.com;uid=dbclassusr;pwd=1996;database=dbclass";
         System.Web.UI.WebControls.Style style1;
 
 
@@ -73,7 +74,6 @@ namespace DbClass
             {
                 tCell = new TableCell();
                 tCell.Text = tHead[i];
-                
                 tCell.ApplyStyle(style1);
                 tRow.Cells.Add(tCell);
             }
@@ -90,7 +90,14 @@ namespace DbClass
                 for(int i=0;i<5;i++)
                 {
                     tCell = new TableCell();
-                    tCell.Text = sdr1.GetValue(i).ToString();
+                    try
+                    {
+                        tCell.Text = sdr1.GetValue(i).ToString();
+                    }
+                    catch
+                    {
+                        tCell.Text = "出错啦^_^";
+                    }
                     tRow.Cells.Add(tCell);
                 } 
                 table1.Rows.Add(tRow);
@@ -102,7 +109,14 @@ namespace DbClass
                 tCell = new TableCell();
                 while (sdr1.Read())
                 {
-                    tCell.Text += sdr1.GetValue(0).ToString() + "</br>";
+                    try
+                    {
+                        tCell.Text += sdr1.GetValue(0).ToString() + "</br>";
+                    }
+                    catch
+                    {
+                        tCell.Text += "出错啦^_^</br>";
+                    }
                 }
                 sdr1.Close();
                 table1.Rows[i].Cells.Add(tCell);
@@ -110,7 +124,7 @@ namespace DbClass
 
         }      
 
-        protected bool check_Num(string ss)
+        public bool check_Num(string ss)
         {
             if (ss.Length == 0)
             {
@@ -119,30 +133,30 @@ namespace DbClass
             }
             if (ss.Length!=8)
             {
-                labelMsg.Text = "学号格式错误";
+
                 return false;
             }
             foreach(char s in ss)
             {
                 if(!Char.IsNumber(s))
                 {
-                    labelMsg.Text = "学号格式错误";
                     return false;
                 }
+            }
+            if(!CheckSQL.IsSafeSqlString(ss))
+            {
+                return false;
             }
             labelMsg.Text = "";
             return true;
         }
-
-        protected void showProfessionRe()
+        public static void Priview(System.Web.UI.Page p, string inFilePath)
         {
-            
-
-        }
-
-        protected void showRewardRe()
-        {
-
+            p.Response.ContentType = "Application/pdf";
+            string fileName = inFilePath.Substring(inFilePath.LastIndexOf('\\') + 1);
+            p.Response.AddHeader("content-disposition", "filename=pdf");
+            p.Response.WriteFile(inFilePath);
+            p.Response.End();
         }
 
         private void Btn_Click(object sender, EventArgs e)
@@ -152,23 +166,37 @@ namespace DbClass
 
         protected void bt1_Click(object sender, EventArgs e)
         {
-            if (!check_Num(TextBox1.Text)) return;
+            if (!check_Num(TextBox1.Text))
+            {
+                labelMsg.Text = "学号格式错误";
+                return;
+            }
             refreshTable(TextBox1.Text);
         }
         protected void bt2_Click(object sender, EventArgs e)
         {
             if (TextBox1.Text.Length == 0) return;
-            if (!check_Num(TextBox1.Text)) return;
+            if (!check_Num(TextBox1.Text))
+            {
+                labelMsg.Text = "学号格式错误";
+                return;
+            }
             MySqlDataReader sdr1;
-            sdr1 = getSDR("delete from Student where ID = " + TextBox1.Text);//mysql加触发器
-            if (sdr1.Read()) Response.Write(sdr1.GetValue(0).ToString());
+            sdr1 = getSDR("delete from student where ID = " + TextBox1.Text);//mysql加触发器            
+            if (sdr1.RecordsAffected == 0)
+            {
+                labelMsg.Text = "删除学号不存在";
+            }
             sdr1.Close();
             refreshTable("");
         }
         protected void bt3_Click(object sender, EventArgs e)
         {
-            //showInsert();
             Response.Redirect("insert.aspx");
+        }
+        protected void bt9_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("information.aspx");
         }
 
         protected void TextBox2_TextChanged(object sender, EventArgs e)
@@ -176,52 +204,19 @@ namespace DbClass
 
         }
 
-        protected void Button5_Click(object sender, EventArgs e)
-        {
-            Label2.Text = "";       
-            MySqlDataReader sdr1;
-            sdr1 = getSDR("select NAME from professionre");
-            while(sdr1.Read())
-            {
-                Label2.Text += "<br>" + sdr1.GetString(0) + "</br>";
-            }
-            sdr1.Close();
-        }
-
-        protected void Button7_Click(object sender, EventArgs e)
-        {
-            Label3.Text = "";
-            MySqlDataReader sdr1;
-            sdr1 = getSDR("select DETAIL from rewardre");
-            while (sdr1.Read())
-            {
-                Label3.Text += "<br>" + sdr1.GetString(0) + "</br>";
-            }
-            sdr1.Close();
-        }
-
-        protected void Button4_Click(object sender, EventArgs e)
-        {
-            MySqlDataReader sdr1;
-            if (TextBox2.Text == "") return;
-            sdr1 = getSDR("insert into professionre (NAME) values('"+TextBox2.Text+"')");
-            sdr1.Close();
-        }
-
-        protected void Button6_Click(object sender, EventArgs e)
-        {
-            MySqlDataReader sdr1;
-            if (TextBox3.Text == "") return;
-            sdr1 = getSDR("insert into rewardre (DETAIL) values('" + TextBox3.Text + "')");
-            sdr1.Close();
-        }
+        
 
         protected void Button8_Click(object sender, EventArgs e)
         {
-            ApplicationClass word = new ApplicationClass();
-            Type wordType = word.GetType();
-            Documents docs = word.Documents;
+            string filePath = Server.MapPath("~") + @"\test2.pdf";
+            Response.Write(filePath);
+            Priview(this, filePath);
 
+        }
+
+        protected void Button10_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("http://www.github.com/upc28/DbClass2016");
         }
     }
 }
