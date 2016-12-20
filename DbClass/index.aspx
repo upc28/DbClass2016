@@ -74,7 +74,7 @@
                     <asp:Button ID="Button2" OnClick="bt2_Click" runat="server" Text="删除" CssClass="auto-style4" /></td>
                 <td style="text-align: center" class="auto-style3"> 
                     <asp:Button ID="Button3" runat="server" OnClick="bt3_Click" Text="插入记录" CssClass="auto-style7" /></td>
-                <td style="text-align: center"><asp:Button ID="Button9" runat="server" OnClick="bt3_Click" Text="专业和奖励信息" Width="113px" /></td>
+                <td style="text-align: center"><asp:Button ID="Button9" runat="server" OnClick="bt9_Click" Text="专业和奖励信息" Width="113px" /></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: center"><asp:Label ID="labelMsg" runat ="server" style="margin-top:10px;text-align:center;vertical-align:central;font-size: 20px;"></asp:Label> </td>
